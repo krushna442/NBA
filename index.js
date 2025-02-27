@@ -10,18 +10,35 @@ import admissionRoute from './routes/admission.js';
 const app = express();
 const PORT =3000;
 
+
+const allowedOrigins = ["http://localhost:5173","https://vendormp.netlify.app","http://localhost:5174"];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
+  
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 
 // MongoDB Connection
-const uri = "mongodb+srv://krushnch442:Krushna72@cluster0.d1dmm.mongodb.net/krushna?retryWrites=true&w=majority";
+const uri = process.env.URI;
 mongoose.connect(uri)
-    .then(() => console.log("Connected to database"))
+.then(() => console.log("Connected to database"))
     .catch(err => console.error("Database connection error:", err));
-
-// API Routes
+    // Routes
 app.use('/api', testimonialRoutes);
 app.use('/api',contactUsRoute);
 app.use('/api',franchise_enquireRoute);
