@@ -120,4 +120,14 @@ router.get ('/contact',(req,res)=>{
             })
             })
 
+// course offer details
+router.get('/courseOffer',(req,res)=>{
+  Course.find().then((course)=>{
+    res.json(course)
+    }).catch((err)=>{
+      res.status(500).json({message:err.message})
+      })
+      })
+
+
 export default router;

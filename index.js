@@ -5,6 +5,8 @@ import testimonialRoutes from './routes/admin.js';
 import contactUsRoute from './routes/contact.js';
 import franchise_enquireRoute from './routes/franchise_enquire.js';
 import admissionRoute from './routes/admission.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 const app = express();
